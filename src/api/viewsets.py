@@ -3,6 +3,18 @@ from .models import Audiobook, Podcast, Song
 
 from .serializers import AudioBookSerializer, PodcastSerializer, SongSerializer
 
+'''
+Using django-rest-framework's ModelViewSets
+ModelViewSet provides built-in actions for different HTTP methods as follows
+
+GET     .list() / .retrieve()
+POST    .create()
+PUT     .update()
+PATCH   .partial_update()
+DELETE  .destroy()
+
+These methods can be overwritten for customized behavior
+'''
 
 class SongViewSet(viewsets.ModelViewSet):
 

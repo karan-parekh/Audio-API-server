@@ -21,9 +21,10 @@ class PodcastSerializer(TaggitSerializer, serializers.ModelSerializer):
     def create(self, validated_data):
         participants = validated_data.pop("participants")
 
+        # Makes sure participant name length is within 100 characters
         for participant in participants:
             if len(participant) > 100:
-                raise  serializers.ValidationError(
+                raise serializers.ValidationError(
                     {"particpants", "Participant name cannot be more than 100 characters"}
                 )
 
