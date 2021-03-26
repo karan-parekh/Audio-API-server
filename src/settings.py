@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'taggit',
+    'taggit_serializer',
     'api',
 ]
 
@@ -71,6 +73,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'wsgi.application'
 
+FORCE_LOWERCASE_TAGS = True
+MAX_TAG_LENGTH = 100
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

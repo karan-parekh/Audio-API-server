@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
+from taggit.managers import TaggableManager
+
 
 class AbstractModel(models.Model):
 
@@ -18,7 +20,7 @@ class Song(AbstractModel):
 class Podcast(AbstractModel):
 
     host = models.CharField(max_length=100, blank=False, null=False)
-    participants = models.CharField(max_length=100, null=True)
+    participants = TaggableManager()
 
 
 class Audiobook(models.Model):
