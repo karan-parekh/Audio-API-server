@@ -1,5 +1,7 @@
 import json
 
+from datetime import datetime
+
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework import status
@@ -57,5 +59,49 @@ class TestPodcastModel(APITestCase):
     def test_podcast_delete(self):
         response = self.client.delete(reverse("podcast-detail", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    # NEGATIVE TESTS
+
+    def test_name_len_gt_100(self):
+        '''
+        Test for name field >100 characters
+        Works for any field with max_length constraint
+        '''
+        data = self.podcast_data
+        data['name'] = "".join(["a" for _ in range(110)])
+        response = self.client.post(self.podcast_url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_negative_duration(self):
+        data = self.podcast_data
+        data["duration"] = -20
+        response = self.client.post(self.podcast_url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_missing_field(self):
+        data = self.podcast_data
+        data.pop("name")
+        response = self.client.post(self.podcast_url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_participant_name_gt_100(self):
+        data = self.podcast_data
+        participants = ["".join(["a" for _ in range(110)])]
+        data['participants'] = str(participants).replace("'", '"')
+        # Replacing {'} with {"} to make the string JSON compatible
+
+        response = self.client.post(self.podcast_url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    
+    def test_upload_time_in_past(self):
+        # setting upload_time to yesterday
+        now  = timezone.now()
+        date = datetime(now.year, now.month, now.day-1)
+        data = self.podcast_data
+        data["upload_time"] = date
+        
+        response = self.client.post(self.podcast_url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
 
 
