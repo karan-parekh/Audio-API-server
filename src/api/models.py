@@ -25,7 +25,7 @@ class Podcast(AbstractModel):
 
 class Audiobook(models.Model):
 
-    title = models.CharField(max_length=100, blank=False, null=False, unique=True)
+    title = models.CharField(max_length=100, blank=False, null=False)
     author = models.CharField(max_length=100, blank=False, null=False)
     narrator = models.CharField(max_length=100, blank=False, null=False)
     duration = models.IntegerField(blank=False, null=False)
