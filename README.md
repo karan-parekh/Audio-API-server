@@ -1,4 +1,4 @@
-# Audio API server assignment
+# Audio API server
 This application is a demonstration of a backend-file-management system using [Django REST framework](https://www.django-rest-framework.org/)
 
 # Index
